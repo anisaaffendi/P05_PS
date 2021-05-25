@@ -36,12 +36,12 @@ public class FragmentFirst extends Fragment {
         btnAddtext = view.findViewById(R.id.btnFrag1);
         tvFrag1 = view.findViewById(R.id.tvFrag1);
 
-        Context applicationContext = MainActivity.getContextOfApplication();
+//        Context applicationContext = MainActivity.getContextOfApplication();
 
         btnAddtext.setOnClickListener(v -> {
             Uri uri = Uri.parse("content://sms");
             String[] reqCols = new String[]{"date", "address", "body", "type"};
-            ContentResolver cr = applicationContext.getContentResolver();
+            ContentResolver cr = getActivity().getContentResolver();
 
             if ((!etFrag1.getText().toString().trim().isEmpty()) && isNumeric(etFrag1.getText().toString().trim())) {
                 String filter = "address LIKE ?";

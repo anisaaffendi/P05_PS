@@ -35,12 +35,12 @@ public class FragmentSecond extends Fragment {
         btnAddtext2 = view.findViewById(R.id.btnFrag2);
         tvFrag2 = view.findViewById(R.id.tvFrag2);
 
-        Context applicationContext = MainActivity.getContextOfApplication();
+//        Context applicationContext = MainActivity.getContextOfApplication();
 
         btnAddtext2.setOnClickListener(v-> {
             Uri uri = Uri.parse("content://sms");
             String[] reqCols = new String[]{"date", "address", "body", "type"};
-            ContentResolver cr = applicationContext.getContentResolver();
+            ContentResolver cr = getActivity().getContentResolver();
 
             if (!etFrag2.getText().toString().trim().isEmpty()) {
                 String filter = "body LIKE ?";

@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static Context contextOfApplication;
-    public static Context getContextOfApplication() { return contextOfApplication; }
+    public static Context getContextOfApplication() {
+        return contextOfApplication;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
