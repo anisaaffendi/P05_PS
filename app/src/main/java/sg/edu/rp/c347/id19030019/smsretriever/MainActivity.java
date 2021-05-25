@@ -24,19 +24,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         contextOfApplication = getApplicationContext();
 
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Fragment frag1 = new FragmentFirst();
+        ft.replace(R.id.frame1, frag1);
+
+        Fragment frag2 = new FragmentSecond();
+        ft.replace(R.id.frame2, frag2);
+
+        ft.commit();
+
         int permissionCheck = PermissionChecker.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS);
         if (permissionCheck != PermissionChecker.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS}, 0);
             return;
         }
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag1 = new FragmentFirst();
-        ft.replace(R.id.frame1, frag1);
-        Fragment frag2 = new FragmentSecond();
-        ft.replace(R.id.frame2, frag2);
-        ft.commit();
+
     }
 
     @Override
