@@ -18,9 +18,10 @@ import android.widget.TextView;
 
 public class FragmentFirst extends Fragment {
 
-    Button btnAddtext;
-    TextView tvFrag1;
-    EditText etFrag1;
+    // Views
+    private Button btnAddtext;
+    private TextView tvFrag1;
+    private EditText etFrag1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,12 +37,10 @@ public class FragmentFirst extends Fragment {
         btnAddtext = view.findViewById(R.id.btnFrag1);
         tvFrag1 = view.findViewById(R.id.tvFrag1);
 
-//        Context applicationContext = MainActivity.getContextOfApplication();
-
         btnAddtext.setOnClickListener(v -> {
             Uri uri = Uri.parse("content://sms");
             String[] reqCols = new String[]{"date", "address", "body", "type"};
-            ContentResolver cr = getActivity().getContentResolver();
+            ContentResolver cr = getContext().getContentResolver();
 
             if ((!etFrag1.getText().toString().trim().isEmpty()) && isNumeric(etFrag1.getText().toString().trim())) {
                 String filter = "address LIKE ?";

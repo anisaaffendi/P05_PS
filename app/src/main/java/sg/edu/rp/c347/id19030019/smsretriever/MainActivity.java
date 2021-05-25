@@ -15,27 +15,11 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    public static Context contextOfApplication;
-    public static Context getContextOfApplication() {
-        return contextOfApplication;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contextOfApplication = getApplicationContext();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        Fragment frag1 = new FragmentFirst();
-        ft.replace(R.id.frame1, frag1);
-
-        Fragment frag2 = new FragmentSecond();
-        ft.replace(R.id.frame2, frag2);
-
-        ft.commit();
 
         int permissionCheck = PermissionChecker.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS);
         if (permissionCheck != PermissionChecker.PERMISSION_GRANTED) {
@@ -43,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag1 = new FragmentFirst();
+        ft.replace(R.id.frame1, frag1);
+        Fragment frag2 = new FragmentSecond();
+        ft.replace(R.id.frame2, frag2);
+        ft.commit();
     }
 
     @Override

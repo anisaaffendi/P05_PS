@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 public class FragmentSecond extends Fragment {
 
-    Button btnAddtext2;
-    TextView tvFrag2;
-    EditText etFrag2;
+    private static final String TAG = FragmentSecond.class.getSimpleName();
+
+    // Views
+    private Button btnAddtext2;
+    private TextView tvFrag2;
+    private EditText etFrag2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,18 +41,42 @@ public class FragmentSecond extends Fragment {
         btnAddtext2 = view.findViewById(R.id.btnFrag2);
         tvFrag2 = view.findViewById(R.id.tvFrag2);
 
-//        Context applicationContext = MainActivity.getContextOfApplication();
-
         btnAddtext2.setOnClickListener(v-> {
             Uri uri = Uri.parse("content://sms");
             String[] reqCols = new String[]{"date", "address", "body", "type"};
-            ContentResolver cr = getActivity().getContentResolver();
+            ContentResolver cr = getContext().getContentResolver();
 
-            if (!etFrag2.getText().toString().trim().isEmpty()) {
-                String filter = "body LIKE ?";
-                String[] filterArgs = {"%"+etFrag2.getText().toString().trim()+"%"};
+            String words = etFrag2.getText().toString().trim();
+            if (!words.isEmpty()) {
 
-                Cursor cursor = cr.query(uri, reqCols, filter, filterArgs, null);
+                // Filter
+                String filter = "";
+                String[] wordArray = words.split(" ", 0);
+                String[] filterArgs = new String[wordArray.length];
+
+                for (int i = 0; i < wordArray.length; i++) {
+                    filter += "body LIKE ? ";
+                    // add AND
+                    if (i != wordArray.length - 1) {
+                        filter += "OR ";
+                    }
+                    // Add Word
+                    filterArgs[i] = "%" + wordArray[i] + "%";
+                }
+
+                Log.d(TAG, Arrays.toString(wordArray) + "\n" + filter + "\n" + Arrays.toString(filterArgs));
+
+                // Ger Rows
+                Cursor cursor = cr.query(
+                        uri,
+                        reqCols,
+                        filter,
+                        filterArgs,
+                        null);
+
+                Log.d(TAG, "Number of rows: " + cursor.getCount());
+
+                // Get Each Row (Message)
                 String smsBody = "";
                 if (cursor.moveToFirst()) {
                     do {
